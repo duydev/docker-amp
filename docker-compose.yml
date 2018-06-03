@@ -1,19 +1,19 @@
 version: '3'
 services:
-    php-apache:
-        #image: 'php:7.0-apache'
+    web:
         build: ./
+        image: 'duydev-php-apache:7.1.18'
         ports:
             - '80'
         volumes:
             - './www:/var/www/html:rw'
             - './configs/php.ini:/usr/local/etc/php/php.ini:ro'
         links:
-            - 'mariadb'
+            - 'db'
         environment:
             VIRTUAL_HOST: 'amp.local'
             VIRTUAL_POST: '80'
-    mariadb:
+    db:
         image: mariadb:10.1
         volumes:
             - mariadb:/var/lib/mysql

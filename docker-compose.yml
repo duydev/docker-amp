@@ -1,0 +1,33 @@
+version: '3'
+services:
+    php-apache:
+        #image: 'php:7.0-apache'
+        build: ./
+        ports:
+            - '80'
+        volumes:
+            - './www:/var/www/html:rw'
+            - './configs/php.ini:/usr/local/etc/php/php.ini:ro'
+        links:
+            - 'mariadb'
+        environment:
+            VIRTUAL_HOST: 'amp.local'
+            VIRTUAL_POST: '80'
+    mariadb:
+        image: mariadb:10.1
+        volumes:
+            - mariadb:/var/lib/mysql
+        environment:
+            TZ: "Asia/Ho_Chi_Minh"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "DOCKER@duydev@MYSQL"
+            MYSQL_USER: 'duydev-me'
+            MYSQL_PASSWORD: 'MYSQL@duydev'
+            MYSQL_DATABASE: 'duydev-me'
+volumes:
+    mariadb:
+
+networks:  
+  default:
+    external:
+      name: nginx-net
